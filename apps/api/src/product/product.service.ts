@@ -13,4 +13,16 @@ export class ProductService {
   findAll(): Promise<Product[]> {
     return this.prisma.product.findMany();
   }
+
+  findOne(id: number): Promise<Product | null> {
+    return this.prisma.product.findUnique({ where: { id } });
+  }
+
+  update(id: number, data: Prisma.ProductUpdateInput): Promise<Product> {
+    return this.prisma.product.update({ where: { id }, data });
+  }
+
+  remove(id: number): Promise<Product> {
+    return this.prisma.product.delete({ where: { id } });
+  }
 }
