@@ -1,0 +1,8 @@
+{
+  "name": "turbo-saas",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "turbo": "^2.5.4"
+  }
+}
