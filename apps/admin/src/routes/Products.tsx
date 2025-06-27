@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Button, Dialog, Form, Input, Table } from '../components/ui'
+import { motion, useReducedMotion } from 'framer-motion'
 
 interface Product {
   id: string
@@ -85,6 +86,7 @@ export default function Products() {
 
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState<Product | null>(null)
+  const reduce = useReducedMotion()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -106,7 +108,13 @@ export default function Products() {
   }
 
   return (
-    <div className="space-y-4">
+    <motion.div
+      className="space-y-4"
+      initial={{ opacity: reduce ? 1 : 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: reduce ? 1 : 0 }}
+      transition={{ duration: reduce ? 0 : 0.4 }}
+    >
       <div className="flex justify-end">
         <Button onClick={() => { setEditing(null); setOpen(true) }}>New Product</Button>
       </div>
@@ -121,7 +129,13 @@ export default function Products() {
         </thead>
         <tbody>
           {products.map(p => (
-            <tr key={p.id} className="border-t">
+            <motion.tr
+              key={p.id}
+              className="border-t"
+              initial={{ opacity: 0, y: reduce ? 0 : 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduce ? 0 : 0.3 }}
+            >
               <td className="px-2 py-1">{p.title}</td>
               <td className="px-2 py-1">${p.price}</td>
               <td className="px-2 py-1">{new Date(p.createdAt).toLocaleDateString()}</td>
@@ -129,7 +143,7 @@ export default function Products() {
                 <Button onClick={() => { setEditing(p); setOpen(true) }}>Edit</Button>
                 <Button onClick={() => deleteMutation.mutate(p.id)}>Delete</Button>
               </td>
-            </tr>
+            </motion.tr>
           ))}
         </tbody>
       </Table>
@@ -157,10 +171,19 @@ export default function Products() {
             </select>
           </div>
           <div className="pt-2 text-right">
-            <Button type="submit">{editing ? 'Update' : 'Create'}</Button>
+            <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>
+              {(createMutation.isPending || updateMutation.isPending) && (
+                <motion.span
+                  className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, ease: 'linear', duration: 1 }}
+                />
+              )}
+              {editing ? 'Update' : 'Create'}
+            </Button>
           </div>
         </Form>
       </Dialog>
-    </div>
+    </motion.div>
   )
 }

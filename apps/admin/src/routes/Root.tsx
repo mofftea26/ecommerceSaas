@@ -1,7 +1,9 @@
-import { Outlet, Link } from '@tanstack/react-router'
+import { Outlet, Link, useRouterState } from '@tanstack/react-router'
 import { Button } from '../components/ui'
+import { AnimatePresence } from 'framer-motion'
 
 export default function Root() {
+  const location = useRouterState({ select: s => s.location })
   return (
     <div className="p-4 space-y-4">
       <nav className="space-x-2">
@@ -15,7 +17,9 @@ export default function Root() {
           <Button>Branding</Button>
         </Link>
       </nav>
-      <Outlet />
+      <AnimatePresence mode="wait">
+        <Outlet key={location.pathname} />
+      </AnimatePresence>
     </div>
   )
 }

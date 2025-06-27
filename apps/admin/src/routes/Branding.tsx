@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { FormEvent, useState } from 'react'
 import { Button, Input, Form } from '../components/ui'
+import { motion, useReducedMotion } from 'framer-motion'
 
 interface Store {
   id: number
@@ -31,6 +32,7 @@ export default function Branding() {
   const { data: store } = useQuery({ queryKey: ['store'], queryFn: fetchStore })
   const mutation = useMutation({ mutationFn: updateStore })
   const [logoUrl, setLogoUrl] = useState('')
+  const reduce = useReducedMotion()
 
   if (!store) return <div>Loading...</div>
 
@@ -48,7 +50,13 @@ export default function Branding() {
   }
 
   return (
-    <div className="space-y-4 max-w-md">
+    <motion.div
+      className="space-y-4 max-w-md"
+      initial={{ opacity: reduce ? 1 : 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: reduce ? 1 : 0 }}
+      transition={{ duration: reduce ? 0 : 0.4 }}
+    >
       <Form onSubmit={handleSubmit}>
         <div>
           <label className="block mb-1">Store Name</label>
@@ -74,6 +82,6 @@ export default function Branding() {
           <Button type="submit">Save</Button>
         </div>
       </Form>
-    </div>
+    </motion.div>
   )
 }
