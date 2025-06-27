@@ -14,7 +14,8 @@
     "react-dom": "^19.1.0",
     "@tanstack/react-query": "^5.19.0",
     "@tanstack/react-router": "^1.0.0",
-    "shadcn-ui": "workspace:*"
+    "shadcn-ui": "workspace:*",
+    "framer-motion": "^10.16.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",

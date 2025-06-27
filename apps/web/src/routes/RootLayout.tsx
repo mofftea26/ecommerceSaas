@@ -1,12 +1,14 @@
-import { Outlet, Link } from '@tanstack/react-router'
+import { Outlet, Link, useRouterState } from '@tanstack/react-router'
 import { useCart } from '../CartContext'
 import { Button } from 'shadcn-ui'
 import { UserButton, SignInButton, SignedIn, SignedOut } from '@clerk/clerk-react'
 import { useBranding } from '../BrandingProvider'
+import { AnimatePresence } from 'framer-motion'
 
 export default function RootLayout() {
   const { items } = useCart()
   const branding = useBranding()
+  const location = useRouterState({ select: s => s.location })
   return (
     <div className="min-h-screen flex flex-col">
       <nav className="border-b p-4 flex justify-between">
@@ -30,7 +32,9 @@ export default function RootLayout() {
         </div>
       </nav>
       <main className="flex-1 p-4">
-        <Outlet />
+        <AnimatePresence mode="wait">
+          <Outlet key={location.pathname} />
+        </AnimatePresence>
       </main>
     </div>
   )

@@ -3,6 +3,7 @@ import { useParams } from '@tanstack/react-router'
 import { Button, Badge } from 'shadcn-ui'
 import { Product } from '../types'
 import { useCart } from '../CartContext'
+import { motion, useReducedMotion } from 'framer-motion'
 
 async function fetchProduct(id: string): Promise<Product> {
   const res = await fetch(`/products/${id}`)
@@ -14,11 +15,18 @@ export default function ProductDetail() {
   const { id } = useParams('/products/$id')
   const { data: product } = useQuery({ queryKey: ['product', id], queryFn: () => fetchProduct(id) })
   const { addToCart } = useCart()
+  const reduce = useReducedMotion()
 
   if (!product) return <div>Loading...</div>
 
   return (
-    <div className="space-y-4 max-w-2xl mx-auto">
+    <motion.div
+      className="space-y-4 max-w-2xl mx-auto"
+      initial={{ opacity: reduce ? 1 : 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: reduce ? 1 : 0 }}
+      transition={{ duration: reduce ? 0 : 0.4 }}
+    >
       {product.imageUrl && (
         <img src={product.imageUrl} alt={product.title} className="w-full h-64 object-cover rounded" />
       )}
@@ -27,6 +35,6 @@ export default function ProductDetail() {
       <p className="text-xl font-semibold">${product.price}</p>
       <p>{product.description}</p>
       <Button onClick={() => addToCart(product)}>Add to Cart</Button>
-    </div>
+    </motion.div>
   )
 }
