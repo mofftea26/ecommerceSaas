@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param, ParseIntPipe } from '@nestjs/common';
 import { StoreService } from './store.service';
 import { Prisma } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
@@ -21,5 +21,10 @@ export class StoreController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.storeService.findOne(id);
+  }
+
+  @Put(':id')
+  update(@Param('id', ParseIntPipe) id: number, @Body() data: Prisma.StoreUpdateInput) {
+    return this.storeService.update(id, data);
   }
 }
