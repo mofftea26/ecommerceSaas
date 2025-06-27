@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "SaaS Shop",
+    "slug": "saas-shop",
+    "version": "1.0.0",
+    "sdkVersion": "50.0.0",
+    "platforms": ["ios", "android", "web"],
+    "jsEngine": "hermes",
+    "extra": {
+      "eas": {
+        "projectId": "demo-project"
+      }
+    }
+  }
+}
