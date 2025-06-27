@@ -1,6 +1,7 @@
 import { RootRoute, Route, Router } from '@tanstack/react-router'
 import Root from './routes/Root'
 import Products from './routes/Products'
+import Branding from './routes/Branding'
 
 const rootRoute = new RootRoute({
   component: Root,
@@ -18,7 +19,13 @@ const productsRoute = new Route({
   component: Products,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, productsRoute])
+const brandingRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: '/branding',
+  component: Branding,
+})
+
+const routeTree = rootRoute.addChildren([indexRoute, productsRoute, brandingRoute])
 
 export const router = new Router({ routeTree })
 

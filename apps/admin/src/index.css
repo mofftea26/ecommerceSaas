@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --primary: theme(colors.blue.600);
+  --secondary: theme(colors.gray.600);
+  --accent: theme(colors.green.600);
+}

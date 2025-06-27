@@ -11,6 +11,9 @@ export default function Root() {
         <Link to="/products">
           <Button>Products</Button>
         </Link>
+        <Link to="/branding">
+          <Button>Branding</Button>
+        </Link>
       </nav>
       <Outlet />
     </div>
